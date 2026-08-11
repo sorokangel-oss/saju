@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사주 명리학 대화형 학습 웹 애플리케이션</title>
+  <meta name="description" content="유천도사의 사주 명리학 대화형 학습지. 천간, 지지, 지장간, 음양오행 및 조후론을 그림과 표로 알기 쉽게 배우고, 단락별 퀴즈와 최종 평가를 통해 실력을 확인하세요.">
+  
+  <!-- Font Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Custom Premium Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar glass" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-emoji">☯️</span>
+          <div class="logo-text">
+            <h2>사주명리학</h2>
+            <p>대화형 학습 가이드</p>
+          </div>
+        </div>
+        <button id="theme-toggle" class="btn-icon" aria-label="화면 테마 변경">
+          <span class="theme-icon">☀️</span>
+        </button>
+      </div>
+
+      <!-- User Progress Dashboard -->
+      <div class="progress-card card glass">
+        <div class="progress-info">
+          <span>전체 학습 진행률</span>
+          <span id="progress-percentage">0%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="overall-progress-bar" style="width: 0%;"></div>
+        </div>
+        <div class="progress-stats">
+          <small>완료한 단락: <span id="completed-chapters-count">0</span> / 13</small>
+        </div>
+      </div>
+
+      <!-- Navigation List -->
+      <nav class="sidebar-nav">
+        <ul id="nav-list">
+          <li class="nav-item active" data-target="intro" id="nav-intro">
+            <span class="nav-icon">📖</span>
+            <span class="nav-title">들어가기</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap1" id="nav-chap1">
+            <span class="nav-icon">Ⅰ</span>
+            <span class="nav-title">사주 명리학 개론</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap2" id="nav-chap2">
+            <span class="nav-icon">Ⅱ</span>
+            <span class="nav-title">천간 (天干)</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap3" id="nav-chap3">
+            <span class="nav-icon">Ⅲ</span>
+            <span class="nav-title">지지 (地支)</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap4" id="nav-chap4">
+            <span class="nav-icon">Ⅳ</span>
+            <span class="nav-title">지장간 (支藏干)</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap5" id="nav-chap5">
+            <span class="nav-icon">Ⅴ</span>
+            <span class="nav-title">한자 획순 (천간)</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap6" id="nav-chap6">
+            <span class="nav-icon">Ⅵ</span>
+            <span class="nav-title">한자 획순 (지지)</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap7" id="nav-chap7">
+            <span class="nav-icon">Ⅶ</span>
+            <span class="nav-title">천간 설문해자</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap8" id="nav-chap8">
+            <span class="nav-icon">Ⅷ</span>
+            <span class="nav-title">지지 설문해자</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap9" id="nav-chap9">
+            <span class="nav-icon">Ⅸ</span>
+            <span class="nav-title">陰陽五행 (음양오행)</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap10" id="nav-chap10">
+            <span class="nav-icon">Ⅹ</span>
+            <span class="nav-title">천간 조후론</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap11" id="nav-chap11">
+            <span class="nav-icon">Ⅺ</span>
+            <span class="nav-title">지지 조후론</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap12" id="nav-chap12">
+            <span class="nav-icon">Ⅻ</span>
+            <span class="nav-title">지장간 응용법</span>
+            <span class="status-indicator"></span>
+          </li>
+          <li class="nav-item" data-target="chap13" id="nav-chap13">
+            <span class="nav-icon">부</span>
+            <span class="nav-title">천간 지지 성정 차이</span>
+            <span class="status-indicator"></span>
+          </li>
+          
+          <li class="nav-divider"></li>
+          
+          <li class="nav-item nav-final" data-target="final" id="nav-final">
+            <span class="nav-icon">🏆</span>
+            <span class="nav-title">최종 종합 평가</span>
+            <span class="status-indicator"></span>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Content Header -->
+      <header class="content-header card glass">
+        <div class="header-info">
+          <h1 id="chapter-title">들어가기</h1>
+          <p id="chapter-subtitle">명학(命學)의 문을 열며</p>
+        </div>
+        <div class="header-actions" style="display: flex; gap: 12px; align-items: center;">
+          <button id="btn-print" class="btn btn-secondary" style="padding: 8px 16px;">🖨️ 인쇄하기</button>
+          <!-- Chapter Tabs (Hidden for Intro and Final Quiz) -->
+          <div class="tabs-container" id="chapter-tabs">
+            <button class="tab-button active" data-tab="theory" id="tab-theory">이론 학습</button>
+            <button class="tab-button" data-tab="summary" id="tab-summary">핵심 요약</button>
+            <button class="tab-button" data-tab="quiz" id="tab-quiz">단락 퀴즈</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Content Wrapper -->
+      <div class="content-body" id="content-body">
+        
+        <!-- Tab Content: Theory -->
+        <section class="tab-content active" id="content-theory">
+          <div class="theory-view html-render" id="theory-renderer">
+            <!-- Theory content will be loaded dynamically here -->
+          </div>
+        </section>
+
+        <!-- Tab Content: Summary -->
+        <section class="tab-content" id="content-summary">
+          <!-- Summary Header / Text -->
+          <div class="summary-view html-render" id="summary-renderer">
+            <!-- Summary card text will go here -->
+          </div>
+
+          <!-- Interactive Visualization Widgets (Dynamic) -->
+          <div class="interactive-widgets" id="widget-container">
+            
+            <!-- Chapter 1 Widget: Post-Heaven Baqua Diagram -->
+            <div class="widget-panel card glass hidden" id="widget-baqua">
+              <h3>☯️ 후천팔괘 방위도 상호작용 다이어그램</h3>
+              <p class="text-muted text-sm">원형 팔괘의 괘(卦)를 클릭하면 세부적인 오행, 방위, 결합 지지 및 기후적 의미가 표시됩니다. (위쪽이 남쪽(南)임에 유의)</p>
+              <div class="baqua-interactive-layout">
+                <div class="baqua-svg-wrapper">
+                  <!-- Dynamic SVG will be rendered here -->
+                  <div id="baqua-svg-target"></div>
+                </div>
+                <div class="baqua-static-image card glass text-center" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; margin: 0;">
+                  <h5 style="margin-bottom: 8px;">후천팔괘 원화 도표</h5>
+                  <img src="../../brain/3597d1fa-53a7-4791-93d9-738bcb0e0d6b/post_heaven_baqua_1785991662656.jpg" alt="후천팔괘도 원화" style="max-width: 100%; max-height: 220px; border-radius: var(--radius-sm); object-fit: contain;">
+                </div>
+                <div class="baqua-detail-panel card glass" id="baqua-detail-box" style="margin: 0;">
+                  <h4>괘를 클릭해 보세요</h4>
+                  <p>후천팔괘의 순환 원리를 명리학과 대조하여 볼 수 있습니다.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chapter 2/3/4 Widget: Hanja Writing Practice Pad -->
+            <div class="widget-panel card glass hidden" id="widget-drawing">
+              <h3>✍️ 천간·지지 한자 획순 애니메이션 및 쓰기 연습</h3>
+              <p class="text-muted text-sm">연습하고자 하는 한자를 선택한 후, 아래의 캔버스 가이드를 보며 마우스나 터치로 직접 따라 써 보세요.</p>
+              <div class="drawing-layout">
+                <div class="kanji-selector-grid">
+                  <div class="selector-section">
+                    <h5>십천간 (十天干)</h5>
+                    <div class="char-buttons" id="천간-buttons">
+                      <!-- 甲 乙 丙 丁 戊 己 庚 辛 壬 癸 -->
+                    </div>
+                  </div>
+                  <div class="selector-section">
+                    <h5>십이지지 (十二地支)</h5>
+                    <div class="char-buttons" id="지지-buttons">
+                      <!-- 子 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥 -->
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="practice-area">
+                  <div class="canvas-wrapper">
+                    <canvas id="paint-canvas" width="300" height="300"></canvas>
+                    <div class="canvas-background-text" id="canvas-bg-text">甲</div>
+                  </div>
+                  <div class="practice-controls">
+                    <button class="btn btn-secondary" id="btn-clear-canvas">지우기</button>
+                    <button class="btn btn-primary" id="btn-show-stroke-guide">획순 가이드 보기</button>
+                  </div>
+                </div>
+
+                <div class="stroke-details card glass" id="stroke-explanation-box">
+                  <h4 id="selected-kanji-title">甲 (갑목)</h4>
+                  <p class="badge" id="selected-kanji-stroke-count">총 5획</p>
+                  <ol id="stroke-steps-list">
+                    <!-- Step explanations -->
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chapter 9 Widget: Five Elements Interaction (Generating & Controlling) -->
+            <div class="widget-panel card glass hidden" id="widget-five-elements">
+              <h3>五行 (오행) 상생·상극 대화형 순환도</h3>
+              <p class="text-muted text-sm">오행(목, 화, 토, 금, 수) 노드를 클릭하면 해당 오행의 <strong>상생(생해주는/내가 생하는)</strong> 및 <strong>상극(극하는/나를 극하는)</strong> 관계가 밝게 활성화되며 상세 설명이 제공됩니다.</p>
+              <div class="five-elements-layout">
+                <div class="five-elements-svg-wrapper">
+                  <div id="five-elements-svg-target"></div>
+                </div>
+                <div class="five-elements-static-image card glass text-center" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; margin: 0;">
+                  <h5 style="margin-bottom: 8px;">오행 순환 원화 도표</h5>
+                  <img src="../../brain/3597d1fa-53a7-4791-93d9-738bcb0e0d6b/five_elements_cycle_1785991704589.jpg" alt="오행 상생상극도 원화" style="max-width: 100%; max-height: 220px; border-radius: var(--radius-sm); object-fit: contain;">
+                </div>
+                <div class="five-elements-detail card glass" id="five-elements-detail-box" style="margin: 0;">
+                  <h4>오행을 선택하세요</h4>
+                  <p>목, 화, 토, 금, 수 노드를 누르시면 상생(원형 외곽선) 및 상극(내부 별모양 선)의 관계가 애니메이션과 함께 표시됩니다.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Tab Content: Quiz -->
+        <section class="tab-content" id="content-quiz">
+          <div class="quiz-container" id="section-quiz-container">
+            <!-- Section quizzes loaded dynamically -->
+          </div>
+        </section>
+
+        <!-- Final Quiz Screen (Separated Module) -->
+        <section class="final-quiz-screen hidden" id="content-final">
+          <div class="final-intro-card card glass text-center" id="final-intro-card">
+            <span class="medal-icon">🏆</span>
+            <h2>사주 명리학 최종 종합 평가</h2>
+            <p>지금까지 배운 이론과 한자 획순, 설문해자 해설, 음양오행 및 조후론에 관한 종합 평가입니다.</p>
+            <div class="final-quiz-rules">
+              <ul>
+                <li>총 문항수: <strong>25문제</strong> (객관식 4지선다형)</li>
+                <li>채점 방식: 제출 시 실시간 채점 및 오답 리포트 생성</li>
+                <li>목표 점수: 80점 이상 (20문제 이상 정답)</li>
+              </ul>
+            </div>
+            <button class="btn btn-primary btn-lg" id="btn-start-final">평가 시작하기</button>
+          </div>
+
+          <!-- Final Quiz Play Area -->
+          <div class="final-play-area hidden" id="final-play-area">
+            <div class="quiz-header-status">
+              <span class="question-number">문제 <span id="final-current-index">1</span> / 25</span>
+              <div class="progress-bar-container mini">
+                <div class="progress-bar-fill" id="final-quiz-progress" style="width: 4%;"></div>
+              </div>
+            </div>
+            <div class="final-question-card card glass">
+              <h3 class="question-title" id="final-question-text">여기에 최종 퀴즈 질문이 들어갑니다.</h3>
+              <div class="options-list" id="final-options-container">
+                <!-- 4 Options buttons -->
+              </div>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn btn-secondary" id="btn-final-prev" disabled>이전 문제</button>
+              <button class="btn btn-primary" id="btn-final-next">다음 문제</button>
+            </div>
+          </div>
+
+          <!-- Final Result Card -->
+          <div class="final-result-card card glass text-center hidden" id="final-result-card">
+            <span class="result-emoji" id="result-emoji">🎉</span>
+            <h2 id="result-title">평가 완료!</h2>
+            <div class="score-display">
+              <span class="score-num" id="result-score">0</span>
+              <span class="score-total">/ 25</span>
+            </div>
+            <p id="result-message">축하합니다! 훌륭한 성적으로 사주명리학 코스를 완료하셨습니다.</p>
+            <div class="result-stats-grid">
+              <div class="stat-box">
+                <small>정답률</small>
+                <strong id="result-accuracy">0%</strong>
+              </div>
+              <div class="stat-box">
+                <small>소요 등급</small>
+                <strong id="result-grade">통과</strong>
+              </div>
+            </div>
+            <div class="result-actions">
+              <button class="btn btn-primary" id="btn-retry-final">다시 풀기</button>
+              <button class="btn btn-secondary" id="btn-show-solutions">정답 및 상세 풀이 보기</button>
+            </div>
+          </div>
+
+          <!-- Final Solutions List (Separated Menu/View) -->
+          <div class="final-solutions-panel card glass hidden" id="final-solutions-panel">
+            <div class="solutions-header">
+              <h3>📝 최종 종합 평가 정답 및 상세 해설</h3>
+              <button class="btn btn-secondary btn-sm" id="btn-close-solutions">결과 화면으로</button>
+            </div>
+            <div class="solutions-list" id="solutions-list-target">
+              <!-- Solutions list rendered here -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Navigation footer (Next/Prev step buttons) -->
+      <footer class="content-footer" id="content-footer">
+        <button class="btn btn-secondary" id="btn-prev-section">⬅️ 이전 단락</button>
+        <button class="btn btn-primary" id="btn-next-step">다음 단계로 ➡️</button>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Load Data and Application Script -->
+  <script src="theory-data.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
